@@ -71,5 +71,13 @@ Frontend Routes:
 - Backend: [Render URL after deployment, e.g., https://hiten-thakkar-202412115.onrender.com]
 
 ## Admin Login Credentials
-- Email: admin@gmail.com
-- Password: password
+1. **Register a New Account**:
+   - Navigate to the registration page (e.g., `https://hiten_thakkar_202412115.vercel.app/register`).
+   - Enter your desired email and password.
+   - During registration, select the **Admin** role from the available options.
+
+2. **Log In**:
+   - After registration, go to the login page (e.g., `https://hiten_thakkar_202412115.vercel.app/login`).
+   - Use the email and password you just created for the admin account to log in.
+
+This ensures you have full access to the reports and other admin functionalities. Note that the application requires an admin role to view reports.
