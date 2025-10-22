@@ -35,27 +35,7 @@ export default function Reports() {
   const [error, setError] = useState<string | null>(null);
   const auth = useContext(AuthContext);
 
-  useEffect(() => {
-    async function fetchReports() {
-      try {
-        setLoading(true);
-        setError(null);
-        const [revenue, avg] = await Promise.all([
-          apiFetch<DailyRevenue[]>('/reports/daily-revenue'),
-          apiFetch<CategoryAverage[]>('/reports/category-average'),
-        ]);
-        setDailyRevenue(revenue || []);
-        setCategoryAvg(avg || []);
-      } catch (e) {
-        console.error('Reports fetch error:', e);
-        setError('Failed to load reports. Check backend connection or try again later.');
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (auth?.user?.role === 'admin') fetchReports();
-  }, [auth]);
-
+  
   if (auth?.user?.role !== 'admin') return <p className="text-red-500">Forbidden</p>;
   if (loading) return <p className="text-center">Loading reports...</p>;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
