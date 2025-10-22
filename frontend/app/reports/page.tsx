@@ -13,13 +13,24 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
+interface DailyRevenue {
+  date: string;
+  revenue: number;
+}
+
+interface CategoryAverage {
+  category: string;
+  _avg: { price: number };
+}
+
 export default function Reports() {
-  const [dailyRevenue, setDailyRevenue] = useState<any[]>([]);
-  const [categoryAvg, setCategoryAvg] = useState<any[]>([]);
+  const [dailyRevenue, setDailyRevenue] = useState<DailyRevenue[]>([]);
+  const [categoryAvg, setCategoryAvg] = useState<CategoryAverage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const auth = useContext(AuthContext);
@@ -30,14 +41,14 @@ export default function Reports() {
         setLoading(true);
         setError(null);
         const [revenue, avg] = await Promise.all([
-          apiFetch('/reports/daily-revenue'),
-          apiFetch('/reports/category-average'),
+          apiFetch<DailyRevenue[]>('/reports/daily-revenue'),
+          apiFetch<CategoryAverage[]>('/reports/category-average'),
         ]);
         setDailyRevenue(revenue || []);
         setCategoryAvg(avg || []);
       } catch (e) {
         console.error('Reports fetch error:', e);
-        setError('Failed to load reports. Please try again.');
+        setError('Failed to load reports. Check backend connection or try again later.');
       } finally {
         setLoading(false);
       }
@@ -49,7 +60,6 @@ export default function Reports() {
   if (loading) return <p className="text-center">Loading reports...</p>;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
-  // Prepare data for charts
   const dailyRevenueData = {
     labels: dailyRevenue.map(r => r.date),
     datasets: [
@@ -80,10 +90,10 @@ export default function Reports() {
     ],
   };
 
-  const barOptions = {
+  const barOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
-      legend: { position: 'top' },
+      legend: { position: 'top' as const },
       title: { display: true, text: 'Daily Revenue' },
     },
     scales: {
@@ -91,10 +101,10 @@ export default function Reports() {
     },
   };
 
-  const pieOptions = {
+  const pieOptions: ChartOptions<'pie'> = {
     responsive: true,
     plugins: {
-      legend: { position: 'right' },
+      legend: { position: 'right' as const },
       title: { display: true, text: 'Average Price by Category' },
     },
   };
@@ -103,7 +113,7 @@ export default function Reports() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl mb-4 text-center">Reports</h1>
       
-      <section className="mb-6 p-4 border rounded">
+      <section className="mb-6 p-4 border rounded" aria-label="Daily Revenue Chart">
         <h2 className="text-xl mb-2">Daily Revenue Chart</h2>
         {dailyRevenue.length > 0 ? (
           <div className="h-80">
@@ -114,7 +124,7 @@ export default function Reports() {
         )}
       </section>
 
-      <section className="p-4 border rounded">
+      <section className="p-4 border rounded" aria-label="Category Average Price Chart">
         <h2 className="text-xl mb-2">Category Average Price Chart</h2>
         {categoryAvg.length > 0 ? (
           <div className="h-80">
