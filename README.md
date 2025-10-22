@@ -71,5 +71,5 @@ Frontend Routes:
 - Backend: [Render URL after deployment, e.g., https://hiten-thakkar-202412115.onrender.com]
 
 ## Admin Login Credentials
-- Email: admin@example.com
+- Email: admin@gmail.com
 - Password: password
