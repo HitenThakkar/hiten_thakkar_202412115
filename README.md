@@ -71,6 +71,11 @@ Frontend Routes:
 - Backend: [Render URL after deployment, e.g., https://hiten-thakkar-202412115.onrender.com]
 
 ## Admin Login Credentials
+- Email : hiten@gmail.com
+- Password : hiten
+
+- OR
+
 1. **Register a New Account**:
    - Navigate to the registration page (e.g., `https://hiten_thakkar_202412115.vercel.app/register`).
    - Enter your desired email and password.
