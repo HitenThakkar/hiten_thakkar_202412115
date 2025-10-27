@@ -1,7 +1,7 @@
 # E-Commerce Web Application
 
 ## Overview and Key Features
-This is a production-ready full-stack e-commerce application built using the MVC pattern. Key features include:
+This is a full-stack e-commerce application built using the MVC pattern. Key features include:
 - Secure authentication with JWT and bcrypt.
 - Product management (CRUD for admins) with search, filtering, pagination, and server-side sorting.
 - Cart and checkout functionality with server-side total calculation.
