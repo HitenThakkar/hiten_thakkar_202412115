@@ -18,14 +18,24 @@ export default function Cart() {
   }
 
   const handleCheckout = async () => {
-    const total = cart.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const order = await apiFetch('/orders/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ total, items: cart.cart.map(item => ({ productId: item.productId, quantity: item.quantity })) }),
-    });
-    alert(`Order placed successfully! Order ID: ${order.id}`);
-    cart.clearCart();
+    try {
+      const order = await apiFetch('/orders/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          // Only send items with productId and quantity
+          items: cart.cart.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+          })),
+        }),
+      });
+
+      alert(`Order placed successfully! Order ID: ${order.id}`);
+      cart.clearCart();
+    } catch (error) {
+      alert('Checkout failed: ' + (error.message || 'Please try again.'));
+    }
   };
 
   return (
